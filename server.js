@@ -70,6 +70,13 @@ app.get("/api/dashboard", jwtMW, (req, res) => {
 	});
 });
 
+app.get("/api/settings", jwtMW, (req, res) => {
+	res.json({
+		success: true,
+		myContent: "My awesome settings menu with no buttons in it but it's a route so that's what matters!"
+	});
+});
+
 app.get("/", (req, res) => {
 	res.sendFile(path.join(__dirname, "index.html"));
 });

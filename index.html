@@ -30,6 +30,7 @@
 			<div>
 				<button onclick="login()">Login</button>
 				<button onclick="getDashboard()">Get Dashboard</button>
+				<button onclick="getSettings()">Settings</button>
 			</div>
 		</main>
 	</div>
@@ -60,6 +61,21 @@
 				if (res && res.data && res.data.success) {
 					document.querySelector("h1.row").innerHTML = "Dashboard";
 					document.querySelector("main").innerHTML = res.data.myContent;
+					history.pushState(null, null, "/api/dashboard");
+				}
+			});
+		}
+
+		function getSettings() {
+			axios.get("/api/settings", {
+				headers: {
+					"Authorization": `Bearer ${localStorage.getItem("jwt")}`
+				}
+			}).then(res => {
+				if (res && res.data && res.data.success) {
+					document.querySelector("h1.row").innerHTML = "Settings";
+					document.querySelector("main").innerHTML = res.data.myContent;
+					history.pushState(null, null, "/api/settings");
 				}
 			});
 		}
