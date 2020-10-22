@@ -46,6 +46,7 @@
 					document.getElementById("username").value = "";
 					document.getElementById("password").value = "";
 					if (res && res.data && res.data.success) {
+						localStorage.setItem("username", res.data.username);
 						localStorage.setItem("jwt", res.data.token);
 						getDashboard();
 					}
@@ -60,7 +61,11 @@
 			}).then(res => {
 				if (res && res.data && res.data.success) {
 					document.querySelector("h1.row").innerHTML = "Dashboard";
-					document.querySelector("main").innerHTML = res.data.myContent;
+					document.querySelector("main").innerHTML = res.data.myContent + `
+						<div>
+							<button onclick="getSettings()">Settings</button>
+							<button onclick="logout()">Sign out of ${localStorage.getItem("username")}</button>
+						</div>`;
 					history.pushState(null, null, "/api/dashboard");
 				}
 			});
@@ -74,11 +79,28 @@
 			}).then(res => {
 				if (res && res.data && res.data.success) {
 					document.querySelector("h1.row").innerHTML = "Settings";
-					document.querySelector("main").innerHTML = res.data.myContent;
+					document.querySelector("main").innerHTML = res.data.myContent + `
+						<div>
+							<button onclick="getDashboard()">Get Dashboard</button>
+							<button onclick="logout()">Sign out of ${localStorage.getItem("username")}</button>
+						</div>`;
 					history.pushState(null, null, "/api/settings");
 				}
 			});
 		}
+
+		function logout() {
+			localStorage.clear();
+			window.location.href = "/";
+		}
+
+		function onLoad() {
+			const token = localStorage.getItem("jwt");
+			if (token) {
+				getDashboard();
+			}
+		}
+		onLoad();
 	</script>
 </body>
 

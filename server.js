@@ -52,6 +52,7 @@ app.post("/api/login", (req, res) => {
 			res.json({
 				success: true,
 				err: null,
+				username,
 				token
 			});
 			break;
